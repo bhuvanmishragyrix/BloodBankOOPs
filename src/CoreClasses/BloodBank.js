@@ -1,18 +1,14 @@
-import InventoryEntry from "./InventoryEntry";
-import BloodGroup from "./BloodGroup";
-import BloodInfo from "./BloodInfo";
-
-class BloodBank {
-    private inventory: InventoryEntry[];
-    private defaultAmountToDonate: number = 2;
-
-    constructor() {
+"use strict";
+exports.__esModule = true;
+var InventoryEntry_1 = require("./InventoryEntry");
+var BloodBank = /** @class */ (function () {
+    function BloodBank() {
+        this.defaultAmountToDonate = 2;
         this.inventory = [];
     }
-
-    donateBlood(bloodInfo: BloodInfo): boolean {
+    BloodBank.prototype.donateBlood = function (bloodInfo) {
         if (bloodInfo.getPlateletCount() > 300) {
-            let donateInventoryEntry = new InventoryEntry(bloodInfo.getbloodGroup(), this.defaultAmountToDonate);
+            var donateInventoryEntry = new InventoryEntry_1["default"](bloodInfo.getbloodGroup(), this.defaultAmountToDonate);
             this.addToInventory(donateInventoryEntry);
             return true;
         }
@@ -20,41 +16,31 @@ class BloodBank {
             console.log("Platelet count is too less. Cannot Donate Blood");
             return false;
         }
-    }
-
-    private addToInventory(inventoryEntry: InventoryEntry) {
-        let bloodGroup = this.doesBloodGroupExist(inventoryEntry.getBloodGroup());
-
-
-
+    };
+    BloodBank.prototype.addToInventory = function (inventoryEntry) {
+        var bloodGroup = this.doesBloodGroupExist(inventoryEntry.getBloodGroup());
         if (bloodGroup) {
-            let updatedInventory = this.inventory.map((el) => {
+            var updatedInventory = this.inventory.map(function (el) {
                 if (el.getBloodGroup().getBloodGroup() === inventoryEntry.getBloodGroup().getBloodGroup()) {
-                    let inventoryEntryLocal = el;
+                    var inventoryEntryLocal = el;
                     inventoryEntryLocal.updateAmountPresent(inventoryEntryLocal.getAmountPresent() + inventoryEntry.getAmountPresent());
                     return inventoryEntryLocal;
                 }
                 else {
-                    return el
+                    return el;
                 }
             });
-
-
-
             this.inventory = updatedInventory;
         }
         else {
             this.inventory.push(inventoryEntry);
         }
-    }
-
-    private checkIfBloodGroupAndRequiredAmountExists(bloodGroup: BloodGroup, amount: number): boolean {
-
-        let doesBloodGroupExist;
+    };
+    BloodBank.prototype.checkIfBloodGroupAndRequiredAmountExists = function (bloodGroup, amount) {
+        var doesBloodGroupExist;
         doesBloodGroupExist = this.doesBloodGroupExist(bloodGroup);
-
         if (doesBloodGroupExist) {
-            let bloodGroupEntry = this.inventory.find((el) => {
+            var bloodGroupEntry = this.inventory.find(function (el) {
                 if (el.getBloodGroup().getBloodGroup() === bloodGroup.getBloodGroup()) {
                     return true;
                 }
@@ -62,7 +48,6 @@ class BloodBank {
                     return false;
                 }
             });
-
             if (bloodGroupEntry.getAmountPresent() >= amount) {
                 return true;
             }
@@ -73,34 +58,29 @@ class BloodBank {
         else {
             return false;
         }
-    }
-
-    private doesBloodGroupExist(bloodGroup: BloodGroup): boolean {
-        let foundBloodGroup = this.inventory.find((el) => {
+    };
+    BloodBank.prototype.doesBloodGroupExist = function (bloodGroup) {
+        var foundBloodGroup = this.inventory.find(function (el) {
             if (el.getBloodGroup().getBloodGroup() === bloodGroup.getBloodGroup()) {
                 return true;
             }
             else {
-                return false
+                return false;
             }
-        })
-
+        });
         if (foundBloodGroup) {
             return true;
         }
         else {
             return false;
         }
-    }
-
-
-    aquireBlood(bloodGroup: BloodGroup, amount: number): boolean {
+    };
+    BloodBank.prototype.aquireBlood = function (bloodGroup, amount) {
         return this.checkAndSubtractAmountFromInventory(bloodGroup, amount);
-    }
-
-    private checkAndSubtractAmountFromInventory(bloodGroup: BloodGroup, amount: number): boolean {
+    };
+    BloodBank.prototype.checkAndSubtractAmountFromInventory = function (bloodGroup, amount) {
         if (this.checkIfBloodGroupAndRequiredAmountExists(bloodGroup, amount)) {
-            let updatedInventory = this.inventory.map((el) => {
+            var updatedInventory = this.inventory.map(function (el) {
                 if (el.getBloodGroup().getBloodGroup() === bloodGroup.getBloodGroup()) {
                     el.updateAmountPresent(el.getAmountPresent() - amount);
                     return el;
@@ -109,7 +89,6 @@ class BloodBank {
                     return el;
                 }
             });
-
             this.inventory = updatedInventory;
             return true;
         }
@@ -117,11 +96,10 @@ class BloodBank {
             console.log("Blood group or required amount does not exist!");
             return false;
         }
-    }
-
-    getInventory() {
+    };
+    BloodBank.prototype.getInventory = function () {
         return this.inventory;
-    }
-}
-
-export default BloodBank;
+    };
+    return BloodBank;
+}());
+exports["default"] = BloodBank;

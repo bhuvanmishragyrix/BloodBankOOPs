@@ -11,11 +11,19 @@ var BloodGroup = /** @class */ (function () {
                 this.bloodGroup = bloodGroup;
                 break;
             default:
-                throw Error("Blood group not supported!");
+                console.log("Blood group not supported!");
         }
     }
     BloodGroup.prototype.getBloodGroup = function () {
         return this.bloodGroup;
+    };
+    BloodGroup.prototype.isBloodGroupSet = function () {
+        if (this.bloodGroup === null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     };
     return BloodGroup;
 }());

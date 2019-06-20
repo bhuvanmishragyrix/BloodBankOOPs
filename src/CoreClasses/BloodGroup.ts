@@ -10,12 +10,21 @@ class BloodGroup {
                 this.bloodGroup = bloodGroup;
                 break;
             default:
-                throw Error("Blood group not supported!");
+                console.log("Blood group not supported!");
         }
     }
 
     getBloodGroup() {
         return this.bloodGroup;
+    }
+
+    isBloodGroupSet(): boolean {
+        if (this.bloodGroup === null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 }
